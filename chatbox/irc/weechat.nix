@@ -29,13 +29,6 @@ let
       script = ''
         tmux new-session -d -s ${name} weechat
       '';
-      postStart = ''
-        tmux send-keys '/relay sslcertkey' C-m
-        sleep 1
-        tmux send-keys '/set relay.network.password ${wee-pass}' C-m
-        sleep 1
-        tmux send-keys '/relay add ssl.weechat 9001' C-m
-      '';
       preStop = ''
         tmux kill-session -t ${name}
       '';
