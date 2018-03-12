@@ -18,11 +18,13 @@ let
         mkdir -pv /var/lib/weechat-${name}/.weechat/python/autoload/
         cp -vf ${wee-slack}/wee_slack.py /var/lib/weechat-${name}/.weechat/python/autoload/wee_slack.py
 
-        mkdir -pv /var/lib/weechat-${name}/.weechat/ssl
-        openssl req -x509 -nodes -newkey rsa:2048 -keyout relay.pem \
-          -subj "/CN=weechat-relay" \
-          -days 365 -out relay.pem
-        mv relay.* /var/lib/weechat-${name}/.weechat/ssl
+        if [[ ! -z "/var/lib/weechat-${name}/.weechat/ssl/relay.pem" ]]; then
+          mkdir -pv /var/lib/weechat-${name}/.weechat/ssl
+          openssl req -x509 -nodes -newkey rsa:2048 -keyout relay.pem \
+            -subj "/CN=weechat-relay" \
+            -days 365 -out relay.pem
+          mv relay.* /var/lib/weechat-${name}/.weechat/ssl
+        fi
 
         chown -R ${name} /var/lib/weechat-${name}
       '';
